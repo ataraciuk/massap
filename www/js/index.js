@@ -27,6 +27,38 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        $('#go').click(function(e){
+            e.preventDefault();
+            var vibrateT = parseInt($('#vibrateT').val(),10) * 1000;
+            var waitT = parseInt($('#waitT').val(),10) * 1000;
+            if(vibrateT > 0 && waitT > 0) {
+                app.vibrateInterval = setInterval(function(){
+                    navigator.notification.vibrate(vibrateT);
+                }, vibrateT + waitT);
+                var wakeT = parseInt($("#restT").val(),10) * 60000;
+                app.remaining = wakeT;
+                if(wakeT > 0) app.wakeTimeout = setTimeout(app.reset, wakeT);
+                $(".remainingMsg").toggle(wakeT > 0);
+                var intTime = 10000;
+                app.setInfo();
+                app.wakeInterval = setInterval(function(){
+                    app.remaining -= intTime;
+                    app.setInfo();
+                }, intTime);
+                $('.menu, .onMassage').toggle();
+            }
+            else {
+                if(vibrateT <= 0 || isNaN(vibrateT)) $('#vibrateT').addClass('error');
+                if(waitT <= 0 || isNaN(waitT)) $('#waitT').addClass('error');
+            }
+        });
+        $('#stop').click(function(e){
+            e.preventDefault();
+            app.reset();
+        })
+        $('input[type="text"]').focus(function(e){
+            $(this).removeClass('error');
+        });
     },
     // deviceready Event Handler
     //
@@ -37,7 +69,25 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-
         console.log('Received Event: ' + id);
-    }
+    },
+    reset: function() {
+        console.log('reset');
+        window.clearInterval(app.vibrateInterval);
+        window.clearTimeout(app.wakeTimeout);
+        window.clearInterval(app.wakeInterval);
+        app.vibrateInterval = null;
+        app.wakeTimeout = null;
+        app.wakeInterval = null;
+        remaining = null;
+        $('.menu, .onMassage').toggle();
+    },
+    setInfo: function() {
+        $('#minRemaining').html(Math.floor(app.remaining / 60000));
+        $(".currentDate").html(new Date());
+    },
+    vibrateInterval: null,
+    wakeTimeout: null,
+    wakeInterval: null,
+    remaining: null
 };
