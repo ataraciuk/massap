@@ -53,7 +53,6 @@
     <feature name="Notification">
         <param name="android-package" value="org.apache.cordova.Notification" />
     </feature>
-    <gap:plugin name="org.apache.cordova.audiohandler" />
     <gap:plugin name="org.apache.cordova.media" />
     <access origin="http://127.0.0.1*" />
     <access origin="http://192.168.1.5*" />
