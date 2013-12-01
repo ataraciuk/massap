@@ -20,6 +20,10 @@ var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
+        var music = $('#music');
+        for(song in app.music) {
+            music.append('<option value="'+song+'">'+app.music[song].display+'</option>');
+        }
     },
     // Bind Event Listeners
     //
@@ -31,6 +35,7 @@ var app = {
             e.preventDefault();
             var vibrateT = parseInt($('#vibrateT').val(),10) * 1000;
             var waitT = parseInt($('#waitT').val(),10) * 1000;
+            app.playAlarm();
             if(vibrateT > 0 && waitT > 0) {
                 app.vibrateInterval = setInterval(function(){
                     navigator.notification.vibrate(vibrateT);
@@ -89,5 +94,25 @@ var app = {
     vibrateInterval: null,
     wakeTimeout: null,
     wakeInterval: null,
-    remaining: null
+    remaining: null,
+    music: {
+        gong : {path: 'gong.mp3', display: 'Gong'},
+        beep: {path: 'alarmClock.mp3', display: 'Beep alarm'},
+        ring: {path: 'analogAlarm.mp3', display: 'Old alarm'}
+    },
+    playAlarm: function() {
+        var currentMedia = app.getCurrentMusic();
+        if(currentMedia) {
+            if (app.media == null) app.media = new Media(app.getPath(currentMedia), function(){}, function(){});
+            app.media.play();
+        }
+    },
+    media: null,
+    getPath: function(name) {
+        var path = window.location.pathname;
+        return path+"mp3/"+name;
+    }
+    getCurrentMusic: function() {
+        return $('#music').val();
+    }
 };

@@ -53,5 +53,7 @@
     <feature name="Notification">
         <param name="android-package" value="org.apache.cordova.Notification" />
     </feature>
+    <gap:plugin name="org.apache.cordova.media" />
     <access origin="http://127.0.0.1*" />
+    <content src="index.html" />
 </widget>
