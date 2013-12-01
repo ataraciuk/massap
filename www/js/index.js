@@ -35,14 +35,13 @@ var app = {
             e.preventDefault();
             var vibrateT = parseInt($('#vibrateT').val(),10) * 1000;
             var waitT = parseInt($('#waitT').val(),10) * 1000;
-            app.playAlarm();
             if(vibrateT > 0 && waitT > 0) {
                 app.vibrateInterval = setInterval(function(){
                     navigator.notification.vibrate(vibrateT);
                 }, vibrateT + waitT);
                 var wakeT = parseInt($("#restT").val(),10) * 60000;
                 app.remaining = wakeT;
-                if(wakeT > 0) app.wakeTimeout = setTimeout(app.reset, wakeT);
+                if(wakeT > 0) app.wakeTimeout = setTimeout(app.playAlarm, wakeT);
                 $(".remainingMsg").toggle(wakeT > 0);
                 var intTime = 1000;
                 app.setInfo();
@@ -85,6 +84,9 @@ var app = {
         app.wakeTimeout = null;
         app.wakeInterval = null;
         remaining = null;
+        var stream = document.getElementById('stream');
+        stream.pause();
+        stream.currentTime = 0;
         $('.menu, .onMassage').toggle();
     },
     setInfo: function() {
@@ -102,15 +104,12 @@ var app = {
     },
     playAlarm: function() {
         var currentMedia = app.getCurrentMusic();
-        if(currentMedia && typeof Media !== "undefined") {
-            if (app.media == null) app.media = new Media(app.getPath(currentMedia), function(){}, function(){});
-            app.media.play();
+        if(currentMedia) {
+            $('source').attr('src', 'mp3/'+app.music[currentMedia].path);
+            var stream = document.getElementById('stream');
+            stream.load();
+            stream.play();
         }
-    },
-    media: null,
-    getPath: function(name) {
-        var path = window.location.pathname;
-        return path+"mp3/"+name;
     },
     getCurrentMusic: function() {
         return $('#music').val();
