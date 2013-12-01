@@ -88,7 +88,7 @@ var app = {
         try{
             stream.pause();
             stream.currentTime = 0;
-        }catch{}
+        }catch(e){}
         $('.menu, .onMassage').toggle();
     },
     setInfo: function() {
