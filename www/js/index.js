@@ -86,8 +86,13 @@ var app = {
         remaining = null;
         var stream = document.getElementById('stream');
         try{
-            stream.pause();
-            stream.currentTime = 0;
+            if(app.media){
+                app.media.pause();
+                app.media.seekTo(0);
+            }else{
+                stream.pause();
+                stream.currentTime = 0;
+            }
         }catch(e){}
         $('.menu, .onMassage').toggle();
     },
@@ -107,13 +112,19 @@ var app = {
     playAlarm: function() {
         var currentMedia = app.getCurrentMusic();
         if(currentMedia) {
-            $('source').attr('src', 'http://ataraciuk.github.io/massap/www/mp3/'+app.music[currentMedia].path);
-            var stream = document.getElementById('stream');
-            stream.load();
-            stream.play();
+            if(typeof Media !== 'undefined') {
+                app.media = new Media('http://ataraciuk.github.io/massap/www/mp3/'+app.music[currentMedia].path, function(){}, function(){});
+                app.media.play();
+            } else {
+                $('source').attr('src', 'http://ataraciuk.github.io/massap/www/mp3/'+app.music[currentMedia].path);
+                var stream = document.getElementById('stream');
+                stream.load();
+                stream.play();
+            }
         }
     },
     getCurrentMusic: function() {
         return $('#music').val();
-    }
+    },
+    media: null
 };
