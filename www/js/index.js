@@ -44,7 +44,7 @@ var app = {
                 app.remaining = wakeT;
                 if(wakeT > 0) app.wakeTimeout = setTimeout(app.reset, wakeT);
                 $(".remainingMsg").toggle(wakeT > 0);
-                var intTime = 10000;
+                var intTime = 1000;
                 app.setInfo();
                 app.wakeInterval = setInterval(function(){
                     app.remaining -= intTime;
@@ -102,7 +102,7 @@ var app = {
     },
     playAlarm: function() {
         var currentMedia = app.getCurrentMusic();
-        if(currentMedia) {
+        if(currentMedia && typeof Media !== "undefined") {
             if (app.media == null) app.media = new Media(app.getPath(currentMedia), function(){}, function(){});
             app.media.play();
         }
@@ -111,7 +111,7 @@ var app = {
     getPath: function(name) {
         var path = window.location.pathname;
         return path+"mp3/"+name;
-    }
+    },
     getCurrentMusic: function() {
         return $('#music').val();
     }

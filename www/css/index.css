@@ -73,7 +73,7 @@ body {
 }
 
 h1 {
-    font-size:24px;
+    font-size:30px;
     font-weight:normal;
     margin:0px;
     overflow:visible;
@@ -123,14 +123,14 @@ h1 {
     border:2px outset #55BB55;
     border-radius:10px;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 22px;
 }
 .button:active{
     background-color: #005500;
     border:2px inset #55BB55;
 }
 .smaller{
-    font-size: 10px;
+    font-size: 14px;
 }
 .error{
     background-color: #FF8888;
@@ -145,5 +145,8 @@ h1 {
 }
 .onMassage {
     display: none;
+}
+p, select{
+    font-size: 18px;
 }
 
