@@ -85,8 +85,10 @@ var app = {
         app.wakeInterval = null;
         remaining = null;
         var stream = document.getElementById('stream');
-        stream.pause();
-        stream.currentTime = 0;
+        try{
+            stream.pause();
+            stream.currentTime = 0;
+        }catch{}
         $('.menu, .onMassage').toggle();
     },
     setInfo: function() {
