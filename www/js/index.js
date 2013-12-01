@@ -107,7 +107,7 @@ var app = {
     playAlarm: function() {
         var currentMedia = app.getCurrentMusic();
         if(currentMedia) {
-            $('source').attr('src', 'mp3/'+app.music[currentMedia].path);
+            $('source').attr('src', 'http://ataraciuk.github.io/massap/www/mp3/'+app.music[currentMedia].path);
             var stream = document.getElementById('stream');
             stream.load();
             stream.play();
