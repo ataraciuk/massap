@@ -87,8 +87,8 @@ var app = {
         var stream = document.getElementById('stream');
         try{
             if(app.media){
-                app.media.pause();
-                app.media.seekTo(0);
+                app.media.stop();
+                app.media.release();
             }else{
                 stream.pause();
                 stream.currentTime = 0;
