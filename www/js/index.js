@@ -113,7 +113,10 @@ var app = {
         var currentMedia = app.getCurrentMusic();
         if(currentMedia) {
             if(typeof Media !== 'undefined') {
-                app.media = new Media('http://ataraciuk.github.io/massap/www/mp3/'+app.music[currentMedia].path, function(){}, function(){});
+                app.media = new Media('http://ataraciuk.github.io/massap/www/mp3/'+app.music[currentMedia].path,
+                    function(){}, function(){},function(status){
+                        if(status == Media.MEDIA_STOPPED) app.media.play();
+                    });
                 app.media.play();
             } else {
                 $('source').attr('src', 'http://ataraciuk.github.io/massap/www/mp3/'+app.music[currentMedia].path);
