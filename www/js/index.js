@@ -87,7 +87,8 @@ var app = {
         var stream = document.getElementById('stream');
         try{
             if(app.media){
-                app.media.stop();
+                app.loopMedia = false;
+                app.media.stop;
                 app.media.release();
             }else{
                 stream.pause();
@@ -113,9 +114,10 @@ var app = {
         var currentMedia = app.getCurrentMusic();
         if(currentMedia) {
             if(typeof Media !== 'undefined') {
+                app.loopMedia = true;
                 app.media = new Media('http://ataraciuk.github.io/massap/www/mp3/'+app.music[currentMedia].path,
                     function(){}, function(){},function(status){
-                        if(status == Media.MEDIA_STOPPED) app.media.play();
+                        if(status == Media.MEDIA_STOPPED && app.loopMedia) app.media.play();
                     });
                 app.media.play();
             } else {
@@ -129,5 +131,6 @@ var app = {
     getCurrentMusic: function() {
         return $('#music').val();
     },
-    media: null
+    media: null,
+    loopMedia: false
 };
